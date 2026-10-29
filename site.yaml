@@ -137,6 +137,17 @@ secciones:
       - { texto: "Voy cada mes a las uñas y es mi rato de calma. Muy limpias y puntuales.", autor: "Carmen · Logroño" }
     nota: "Opiniones de clientas del estudio."
 
+  preguntas:
+    activa: true
+    antetitulo: Preguntas frecuentes
+    titulo: Lo que nos preguntáis a menudo
+    preguntas:
+      - { pregunta: "¿Hace falta pedir cita?", respuesta: "Sí, trabajamos siempre con cita para atenderte sin prisas. Escríbenos por WhatsApp y te buscamos un hueco esa misma semana." }
+      - { pregunta: "¿Cuánto dura una manicura semipermanente?", respuesta: "Entre dos y tres semanas, según el crecimiento de la uña y el cuidado en casa. Te damos consejos para que aguante más." }
+      - { pregunta: "¿Hacéis prueba de peinado para bodas?", respuesta: "Sí. Recomendamos hacerla un mes antes del evento para ajustar el peinado y el maquillaje con calma." }
+      - { pregunta: "¿Qué productos usáis?", respuesta: "Tintes sin amoniaco y productos de cuidado de marcas profesionales. Si tienes alguna alergia, dínoslo al pedir cita." }
+      - { pregunta: "¿Puedo cambiar o anular la cita?", respuesta: "Claro. Avísanos con al menos 24 horas para que podamos dar el hueco a otra clienta." }
+
   contacto:
     activa: true
     antetitulo: Contacto

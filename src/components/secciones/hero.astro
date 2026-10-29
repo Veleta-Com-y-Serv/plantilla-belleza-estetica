@@ -2,6 +2,7 @@
 // Hero delicado: texto a la izquierda y collage de hasta 3 fotos (`galeria`) desplazado a la derecha,
 // sobre un degradado muy suave. Sin galería usa `imagen`. `items`: chips en píldora (opcionales).
 import { seccion } from '../../data/site';
+import { altGaleria, altHero } from '../../lib/seo';
 import Imagen from '../ui/Imagen.astro';
 interface Props { id: string; primera?: boolean }
 const { id, primera = false } = Astro.props;
@@ -41,7 +42,7 @@ const tamanos = [
               <span class="collage-aro" aria-hidden="true" />
               {fotos.map((f, i) => (
                 <div class:list={['collage-foto', formas[i]]}>
-                  <Imagen src={f} alt="" ancho={tamanos[i].ancho} alto={tamanos[i].alto} prioridad={primera && i === 0} class="h-full w-full object-cover" />
+                  <Imagen src={f} alt={i === 0 ? altHero() : altGaleria(i)} ancho={tamanos[i].ancho} alto={tamanos[i].alto} prioridad={primera && i === 0} class="h-full w-full object-cover" />
                 </div>
               ))}
             </div>

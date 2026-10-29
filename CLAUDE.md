@@ -21,8 +21,9 @@ Cada sección es un componente que solo se pinta si `site.yaml → secciones.<id
 - `ofertas` → `src/components/secciones/ofertas.astro` (bonos y promociones)
 - `reservas` → `src/components/secciones/reservas.astro` (pedir cita)
 - `opiniones` → `src/components/secciones/opiniones.astro`
+- `preguntas` → `src/components/secciones/preguntas.astro` (preguntas frecuentes en acordeón `details/summary`; sin preguntas no se pinta)
 - `contacto` → `src/components/secciones/contacto.astro`
-- Diseños extra para apartados nuevos: `texto` (genérico) y `preguntas` (acordeón).
+- Diseño extra para apartados nuevos: `texto` (genérico).
 
 ## Reglas para órdenes
 1. **Activar o quitar una sección**: cambia `activa: true|false` en `site.yaml`. No borres componentes.
@@ -31,8 +32,8 @@ Cada sección es un componente que solo se pinta si `site.yaml → secciones.<id
 4. **Listas planas**: nunca una lista dentro de un elemento de lista. Para agrupar tarifas usa el campo `categoria` de cada tarifa (no listas anidadas). Máximo 24 elementos por lista.
 5. **Página nueva**: crea `src/pages/<slug>.astro` usando `import Base from '../layouts/Base.astro'` y `<Base titulo="…" descripcion="…">…</Base>`; enlázala en `site.yaml → menu` (`{ texto: …, url: "/<slug>" }`). Ejemplo: `src/pages/aviso-legal.astro`.
 6. **Apartado nuevo**: añade `secciones.<id-nuevo>` en `site.yaml` con `tipo:` igual al diseño que quieras (`texto`, `tarifas`, `ofertas`, `preguntas`, `galeria`…). Si ninguno sirve, crea `src/components/secciones/<id>.astro` copiando la estructura de uno existente (`seccion(Astro.props.id)`, `Seccion`, `Titular`). `src/pages/index.astro` lo recoge solo: no lo toques.
-7. **No tocar** `src/layouts/Base.astro`, `src/pages/index.astro`, `tailwind.config.mjs` ni `src/styles/comun.css` salvo orden explícita de diseño.
-8. Mantén: `lang="es-ES"`, imágenes con `Imagen.astro` (carga diferida), sin JavaScript nuevo salvo necesidad real, 16 px de margen lateral (`.contenedor`), sin scroll horizontal en móvil.
+7. **No tocar** `src/layouts/Base.astro`, `src/pages/index.astro`, `tailwind.config.mjs` ni `src/styles/comun.css` salvo orden explícita de diseño. Tampoco `src/lib/seo.ts` ni `src/pages/robots.txt.ts`, `sitemap.xml.ts` y `llms.txt.ts`: son el SEO de base (canónica, og:image, `noindex` si `seo.indexable: false`, JSON-LD del negocio y de las preguntas, robots, sitemap y llms.txt), salen solos de `site.yaml` y el fichero es el mismo en las 16 plantillas. `seo.url` y `seo.indexable` los pone la plataforma: no los cambies.
+8. Mantén: `lang="es-ES"`, imágenes con `Imagen.astro` (carga diferida), sin JavaScript nuevo salvo necesidad real, 16 px de margen lateral (`.contenedor`), sin scroll horizontal en móvil. Imágenes de contenido con `alt` sacado del contenido (`altHero`, `altFicha`, `altGaleria`, `altSeccion` de `src/lib/seo.ts`, o el `titulo`/`nombre` de la ficha); las decorativas, `alt=""` (Imagen.astro les pone `aria-hidden`).
 9. El formulario no tiene servidor: abre el correo (`mailto`) con el email de `site.yaml`. Para envío real, cambia `action` en `src/components/ui/FormularioContacto.astro`.
 10. Nunca inventes precios, opiniones ni datos que el cliente no haya dado: deja el campo vacío o la lista vacía (los componentes lo ocultan).
 

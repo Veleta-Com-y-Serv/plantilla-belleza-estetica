@@ -2,6 +2,7 @@
 // Galería estilo Instagram: rejilla cuadrada de 3 columnas (3 × 3 con 9 fotos), huecos finos.
 // Campos: `galeria[]` (rutas), `cta` opcional (p. ej. enlace al perfil de Instagram).
 import { seccion } from '../../data/site';
+import { altGaleria } from '../../lib/seo';
 import Seccion from '../ui/Seccion.astro';
 import Titular from '../ui/Titular.astro';
 import Imagen from '../ui/Imagen.astro';
@@ -19,7 +20,7 @@ const esInstagram = (url?: string) => !!url && /instagram\.com/i.test(url);
       <ul class="mx-auto grid max-w-4xl grid-cols-3 gap-1 sm:gap-2">
         {fotos.map((f, i) => (
           <li class="group relative aspect-square overflow-hidden rounded-[.35rem] bg-[var(--nude-suave)] sm:rounded-[.75rem]">
-            <Imagen src={f} alt="" ancho={800} alto={800} class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]" />
+            <Imagen src={f} alt={altGaleria(i)} ancho={800} alto={800} class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]" />
           </li>
         ))}
       </ul>

@@ -11,10 +11,11 @@ secciones:
   - { id: ofertas, nombre: Bonos y promociones }
   - { id: reservas, nombre: Pedir cita }
   - { id: opiniones, nombre: Opiniones }
+  - { id: preguntas, nombre: Preguntas frecuentes }
   - { id: contacto, nombre: Contacto }
 estilo: delicado
 plan_minimo: gratis
-version: 1.1.0
+version: 1.2.0
 base: astrowind
 demo_url: https://demo-plantilla-belleza-estetica.noexpertise.com
 activa: true
@@ -58,6 +59,12 @@ asistente:
     pregunta: "¿Cómo se pide cita? Por WhatsApp, por teléfono, con una agenda en internet…"
     tipo: texto
     campos: [secciones.reservas.titulo, secciones.reservas.texto, secciones.reservas.items, secciones.reservas.nota]
+  - id: preguntas
+    titulo: "Preguntas frecuentes"
+    pregunta: "¿Qué os preguntan más a menudo? Escribe cada pregunta y lo que respondéis."
+    ayuda: "Si lo prefieres, añádelos luego en Contenido."
+    tipo: lista
+    campos: [secciones.preguntas.preguntas]
   - id: fotos
     titulo: "Tus fotos"
     pregunta: "Pon fotos de tu salón y de tus trabajos."
