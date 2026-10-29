@@ -1,0 +1,60 @@
+---
+// Cabecera «centrada»: logo o nombre en el centro y, debajo, el menú en una línea fina entre filetes.
+// A la izquierda el teléfono y a la derecha el botón de cabecera (solo escritorio). En móvil, menú plegable
+// sin librerías (<details>) a la derecha del nombre. El aspecto está en src/styles/global.css (.cabecera--centrada).
+import { site, tel } from '../data/site';
+import type { Enlace } from '../data/site';
+import Icono from './ui/Icono.astro';
+interface Props { variante?: string; cta?: Enlace | null }
+const { variante = 'centrada', cta = null } = Astro.props;
+const telefono = site.contacto.telefono;
+---
+
+<header class={`cabecera cabecera--${variante}`}>
+  <div class="contenedor cab-fila">
+    <div class="cab-lado cab-lado--izq">
+      {
+        telefono && (
+          <a class="cab-telefono" href={tel(telefono)}>
+            <Icono nombre="telefono" tam={16} />
+            <span>{telefono}</span>
+          </a>
+        )
+      }
+    </div>
+    <a href="/" class="cab-marca" aria-label={`${site.nombre}, inicio`}>
+      {site.logo ? <img src={site.logo} alt={site.nombre} class="cab-logo" width="200" height="56" /> : <span class="cab-nombre">{site.nombre}</span>}
+    </a>
+    <div class="cab-lado cab-lado--der">
+      {cta && cta.url && <a href={cta.url} class="btn cab-cta">{cta.texto}</a>}
+      {
+        site.menu.length > 0 && (
+          <details class="menu-movil">
+            <summary aria-label="Menú">
+              <span class="menu-movil-icono" aria-hidden="true" />
+            </summary>
+            <nav class="menu-movil-panel" aria-label="Menú">
+              {site.menu.map((e) => <a href={e.url}>{e.texto}</a>)}
+              {cta && cta.url && <a href={cta.url} class="btn">{cta.texto}</a>}
+              {telefono && <a href={tel(telefono)}>{telefono}</a>}
+            </nav>
+          </details>
+        )
+      }
+    </div>
+  </div>
+  {
+    site.menu.length > 0 && (
+      <nav class="cab-linea" aria-label="Menú principal">
+        <div class="contenedor cab-linea-fila">
+          {site.menu.map((e) => <a href={e.url}>{e.texto}</a>)}
+        </div>
+      </nav>
+    )
+  }
+</header>
+<script is:inline>
+  document.querySelectorAll('.menu-movil a').forEach(function (a) {
+    a.addEventListener('click', function () { a.closest('details').open = false; });
+  });
+</script>

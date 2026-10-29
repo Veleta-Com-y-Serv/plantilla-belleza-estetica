@@ -1,0 +1,29 @@
+---
+// Preguntas frecuentes (diseño extra para apartados nuevos: `tipo: preguntas`): acordeón nativo <details>
+// separado por filetes finos, sin JavaScript. Campos: `preguntas[]` (pregunta, respuesta).
+import { seccion } from '../../data/site';
+import Seccion from '../ui/Seccion.astro';
+import Titular from '../ui/Titular.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const preguntas = s ? s.preguntas.filter((p) => p && p.pregunta) : [];
+---
+
+{
+  s && preguntas.length > 0 && (
+    <Seccion id={Astro.props.id} contenedor="max-w-3xl">
+      <Titular alinear="centro" antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} />
+      <div class="divide-y divide-texto/10 border-y border-texto/10">
+        {preguntas.map((p) => (
+          <details class="faq">
+            <summary class="flex items-center justify-between gap-4 py-5">
+              <span class="serif text-lg tracking-[.03em]">{p.pregunta}</span>
+              <span class="faq-signo grid h-8 w-8 shrink-0 place-items-center rounded-full border border-primario/40 text-primario transition-transform" aria-hidden="true">+</span>
+            </summary>
+            <p class="pb-6 opacity-75">{p.respuesta}</p>
+          </details>
+        ))}
+      </div>
+    </Seccion>
+  )
+}

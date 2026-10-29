@@ -1,0 +1,69 @@
+---
+// Reservas: tres pasos en círculos finos unidos por un filete y botones de cita.
+// Campos: `texto`, `items[]` (pasos), `cta` (botón principal: si su `url` está vacía abre WhatsApp con
+// contacto.whatsapp), `enlace_reservas` (url opcional a una agenda externa) con `enlace_reservas_texto`, `nota`.
+import { seccion, site, tel, whatsapp, valor } from '../../data/site';
+import Seccion from '../ui/Seccion.astro';
+import Titular from '../ui/Titular.astro';
+import Icono from '../ui/Icono.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const c = site.contacto;
+const urlCta = valor(s?.cta?.url) || whatsapp(c.whatsapp);
+const esWhatsapp = /wa\.me|whatsapp/i.test(urlCta);
+const agenda = valor(s?.enlace_reservas);
+const agendaTexto = valor(s?.enlace_reservas_texto) || valor(s?.cta_secundario?.texto) || agenda.replace(/^https?:\/\/(www\.)?/, '').split('/')[0];
+const nota = valor(s?.nota);
+const externo = (u: string) => /^https?:/.test(u);
+---
+
+{
+  s && (
+    <Seccion id={Astro.props.id} class="degradado">
+      <Titular alinear="centro" antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} />
+      {s.items.length > 0 && (
+        <ol class="pasos mx-auto grid max-w-5xl gap-10 md:grid-cols-3 md:gap-8">
+          {s.items.map((it, i) => (
+            <li class="paso relative text-center">
+              <span class="serif relative z-[1] mx-auto grid h-16 w-16 place-items-center rounded-full border border-primario/40 bg-[var(--c-fondo)] text-2xl text-primario">{i + 1}</span>
+              <p class="serif mt-5 text-xl tracking-[.04em]">{it.titulo}</p>
+              {it.texto && <p class="mx-auto mt-2 max-w-[18rem] text-sm opacity-75">{it.texto}</p>}
+            </li>
+          ))}
+        </ol>
+      )}
+      <div class="mt-12 flex flex-wrap justify-center gap-3">
+        {urlCta && s.cta?.texto && (
+          <a class="btn" href={urlCta} rel={externo(urlCta) ? 'noopener' : undefined} target={externo(urlCta) ? '_blank' : undefined}>
+            {esWhatsapp && <Icono nombre="whatsapp" tam={18} />}
+            {s.cta.texto}
+          </a>
+        )}
+        {agenda && (
+          <a class="btn-sec" href={agenda} rel="noopener" target="_blank">
+            <Icono nombre="calendario" tam={18} />
+            {agendaTexto}
+          </a>
+        )}
+        {c.telefono && (
+          <a class="btn-sec" href={tel(c.telefono)}>
+            <Icono nombre="telefono" tam={18} />
+            {c.telefono}
+          </a>
+        )}
+      </div>
+      {(nota || c.horario) && (
+        <div class="mx-auto mt-8 max-w-xl text-center text-sm opacity-75">
+          {nota && <p class="italic">{nota}</p>}
+          {c.horario && <p class="mt-2 inline-flex items-center gap-2"><Icono nombre="reloj" tam={16} />{c.horario}</p>}
+        </div>
+      )}
+    </Seccion>
+  )
+}
+
+<style>
+  @media (min-width: 768px) {
+    .paso:not(:last-child)::after { content: ""; position: absolute; top: 2rem; left: calc(50% + 2.5rem); right: calc(-50% + 2.5rem); height: 1px; background: color-mix(in srgb, var(--c-primario) 30%, transparent); }
+  }
+</style>

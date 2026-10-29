@@ -1,0 +1,51 @@
+---
+// Ofertas, bonos y promociones: tarjetas con degradado suave y el precio en grande.
+// Campos: `ofertas[]` (titulo, texto, precio, validez), `nota`. Si `ofertas` está vacía, la sección no se pinta.
+import { seccion, valor } from '../../data/site';
+import Seccion from '../ui/Seccion.astro';
+import Titular from '../ui/Titular.astro';
+import Icono from '../ui/Icono.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const ofertas = s ? s.ofertas.filter((o) => valor(o.titulo)) : [];
+const nota = valor(s?.nota);
+---
+
+{
+  s && ofertas.length > 0 && (
+    <Seccion id={Astro.props.id} class="degradado">
+      <Titular alinear="centro" antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} />
+      <ul class:list={['mx-auto grid gap-6 md:grid-cols-2', ofertas.length >= 3 ? 'lg:grid-cols-3' : 'max-w-4xl']}>
+        {ofertas.map((o) => {
+          const precio = valor(o.precio);
+          const validez = valor(o.validez);
+          return (
+            <li class="oferta tarjeta flex flex-col p-7 md:p-8">
+              {validez && (
+                <p>
+                  <span class="chip chip--oliva">
+                    <Icono nombre="calendario" tam={14} />
+                    {validez}
+                  </span>
+                </p>
+              )}
+              <h3 class="mt-5 text-[1.7rem] tracking-[.03em]">{o.titulo}</h3>
+              {o.texto && <p class="mt-3 opacity-75">{o.texto}</p>}
+              {precio && (
+                <p class="serif mt-auto pt-6 text-[2.6rem] leading-none text-primario">
+                  <span class="block border-t border-texto/10 pt-6">{precio}</span>
+                </p>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+      {nota && <p class="mx-auto mt-10 max-w-xl text-center text-sm italic opacity-70">{nota}</p>}
+      {s.cta?.url && <p class="mt-8 text-center"><a class="btn" href={s.cta.url}>{s.cta.texto}</a></p>}
+    </Seccion>
+  )
+}
+
+<style>
+  .oferta { background: linear-gradient(160deg, color-mix(in srgb, var(--c-primario) 10%, var(--c-fondo)), var(--c-fondo) 65%); }
+</style>

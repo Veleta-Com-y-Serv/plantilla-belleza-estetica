@@ -1,0 +1,146 @@
+# Contenido de la web. Es lo único que rellena la plataforma NoExpertise.
+# Las secciones se muestran en el orden de este fichero. Para ocultar una: activa: false.
+# Apartado nuevo: un id propio (es su ancla, /#id) con `tipo:` = el diseño de otra sección o `texto`.
+# Listas siempre planas: nunca una lista dentro de un elemento de lista. Precios siempre entre comillas.
+nombre: Almendra Estudio
+eslogan: Peluquería y estética en el centro de Logroño.
+sector: peluqueria
+logo: ""          # ruta a una imagen en public/ (p. ej. /logo.svg). Vacío = nombre en texto.
+colores:
+  primario: "#a25f62"   # rosa empolvado (botones, precios, detalles)
+  acento: "#6b7445"     # oliva (chips y detalles)
+  fondo: "#fffaf7"
+  texto: "#3a2e2c"
+contacto:
+  telefono: "941 25 37 18"
+  email: hola@almendraestudio.es
+  direccion: Calle Bretón de los Herreros 12, 26001 Logroño
+  horario: "Martes a viernes, de 9:30 a 19:30. Sábados, de 9:00 a 14:00."
+  whatsapp: "+34 622 41 37 18"
+redes:
+  instagram: https://www.instagram.com/
+  facebook: ""
+  linkedin: ""
+menu:
+  - { texto: Tarifas, url: "/#tarifas" }
+  - { texto: Equipo, url: "/#equipo" }
+  - { texto: Trabajos, url: "/#galeria" }
+  - { texto: Bonos, url: "/#ofertas" }
+  - { texto: Reservar, url: "/#reservas" }
+  - { texto: Contacto, url: "/#contacto" }
+boton_cabecera: { texto: Pedir cita, url: "/#reservas" }
+seo:
+  titulo: Almendra Estudio · Peluquería y estética en Logroño
+  descripcion: "Peluquería, color, uñas y estética en el centro de Logroño. Productos respetuosos, precios claros y cita por WhatsApp."
+  tipo: BeautySalon   # tipo de schema.org (BeautySalon, HairSalon, NailSalon, DaySpa…)
+marca_pie: true   # «Web creada con NoExpertise» en el pie (plan gratis)
+
+secciones:
+  hero:
+    activa: true
+    antetitulo: Peluquería y estética en Logroño
+    titulo: Tu rato de calma, en buenas manos
+    texto: "Cortes, color y cuidados de piel y uñas con productos respetuosos. Sin prisas y con consejo de verdad."
+    galeria:   # collage de 3 fotos: vertical, cuadrada y apaisada
+      - /fotos/hero-1.jpg
+      - /fotos/hero-2.jpg
+      - /fotos/hero-3.jpg
+    cta: { texto: Pedir cita, url: "/#reservas" }
+    cta_secundario: { texto: Ver tarifas, url: "/#tarifas" }
+    items:   # chips bajo los botones (solo `titulo`)
+      - { titulo: Productos veganos }
+      - { titulo: Abrimos sábados }
+      - { titulo: Cita por WhatsApp }
+
+  tarifas:
+    activa: true
+    antetitulo: Tarifas
+    titulo: Servicios y precios
+    texto: "Precios con IVA incluido. Si tienes dudas, te asesoramos antes de empezar."
+    tarifas:   # se agrupan por `categoria` en el orden en que aparecen
+      - { nombre: Corte y peinado, duracion: 45 min, precio: "28 €", categoria: Peluquería, texto: "Lavado, corte y secado." }
+      - { nombre: Corte de caballero, duracion: 30 min, precio: "16 €", categoria: Peluquería, texto: "" }
+      - { nombre: Peinado o recogido, duracion: 40 min, precio: "22 €", categoria: Peluquería, texto: "Para eventos y celebraciones." }
+      - { nombre: Ritual de hidratación, duracion: 20 min, precio: "18 €", categoria: Peluquería, texto: "Mascarilla y masaje capilar." }
+      - { nombre: Tinte de raíz, duracion: 1 h, precio: "32 €", categoria: Color, texto: "Sin amoniaco." }
+      - { nombre: Mechas balayage, duracion: 2 h 30 min, precio: "desde 75 €", categoria: Color, texto: "Según largo y densidad." }
+      - { nombre: Baño de color, duracion: 30 min, precio: "25 €", categoria: Color, texto: "Brillo y matiz." }
+      - { nombre: Manicura semipermanente, duracion: 45 min, precio: "20 €", categoria: Manos y pies, texto: "" }
+      - { nombre: Retirada y nueva semipermanente, duracion: 1 h, precio: "24 €", categoria: Manos y pies, texto: "" }
+      - { nombre: Pedicura completa, duracion: 50 min, precio: "30 €", categoria: Manos y pies, texto: "Con exfoliación e hidratación." }
+      - { nombre: Limpieza facial, duracion: 1 h, precio: "45 €", categoria: Estética, texto: "Adaptada a tu tipo de piel." }
+      - { nombre: Diseño de cejas, duracion: 15 min, precio: "10 €", categoria: Estética, texto: "" }
+      - { nombre: Lifting de pestañas, duracion: 50 min, precio: "38 €", categoria: Estética, texto: "Con tinte incluido." }
+      - { nombre: Depilación de piernas, duracion: 40 min, precio: "26 €", categoria: Estética, texto: "Con cera tibia." }
+    nota: "¿Primera vez con nosotras? Te hacemos un diagnóstico de cabello o piel sin coste."
+    cta: { texto: Reservar un servicio, url: "/#reservas" }
+
+  equipo:
+    activa: true
+    antetitulo: Equipo
+    titulo: Las manos que te cuidan
+    texto: "Tres profesionales que se forman cada temporada y te dicen lo que de verdad te queda bien."
+    personas:
+      - { nombre: Lucía Sáenz, cargo: Fundadora · Color y corte, foto: /placeholders/persona.svg, texto: "Más de 15 años con tijeras. Especialista en mechas naturales." }
+      - { nombre: Irene Ochoa, cargo: Estética y uñas, foto: /placeholders/persona.svg, texto: "Tratamientos faciales, cejas y pestañas." }
+      - { nombre: Marta Ruiz, cargo: Peluquería y recogidos, foto: /placeholders/persona.svg, texto: "Peinados de novia y de invitada." }
+
+  galeria:
+    activa: true
+    antetitulo: Nuestro trabajo
+    titulo: Detalles que se notan
+    texto: "Algunos trabajos recientes del estudio."
+    galeria:   # rejilla cuadrada 3 × 3
+      - /fotos/galeria-1.jpg
+      - /fotos/galeria-2.jpg
+      - /fotos/galeria-3.jpg
+      - /fotos/galeria-4.jpg
+      - /fotos/galeria-5.jpg
+      - /fotos/galeria-6.jpg
+      - /fotos/galeria-7.jpg
+      - /fotos/galeria-8.jpg
+      - /fotos/galeria-9.jpg
+    cta: { texto: Síguenos en Instagram, url: "https://www.instagram.com/" }
+
+  ofertas:
+    activa: true
+    antetitulo: Bonos y promociones
+    titulo: Cuídate más, paga menos
+    texto: "Bonos para repetir y propuestas de temporada."
+    ofertas:
+      - { titulo: Bono 5 manicuras, texto: "Cinco manicuras semipermanentes para usar cuando quieras.", precio: "90 €", validez: Válido 6 meses }
+      - { titulo: Martes de color, texto: "Tinte de raíz y corte con secado, de martes a jueves.", precio: "50 €", validez: Hasta el 31 de diciembre }
+      - { titulo: Pack invitada, texto: "Peinado o recogido, maquillaje y manicura para tu evento.", precio: "desde 70 €", validez: Con cita previa }
+    nota: "Bonos personales. No acumulables con otras promociones."
+
+  reservas:
+    activa: true
+    antetitulo: Pedir cita
+    titulo: Reserva en tres pasos
+    texto: "Escríbenos y te buscamos un hueco. Respondemos el mismo día."
+    items:
+      - { titulo: Escríbenos, texto: "Por WhatsApp o por teléfono. Dinos qué te quieres hacer." }
+      - { titulo: Elige día y hora, texto: "Te proponemos los huecos libres de la semana." }
+      - { titulo: Ven a desconectar, texto: "Te esperamos con un café o una infusión." }
+    cta: { texto: Pedir cita por WhatsApp, url: "" }   # url vacía = WhatsApp de contacto
+    enlace_reservas: ""             # url de una agenda externa (opcional); si existe, aparece su botón
+    enlace_reservas_texto: Reservar en la agenda online
+    nota: "Si no puedes venir, avísanos con 24 horas para dar tu hueco a otra persona."
+
+  opiniones:
+    activa: true
+    antetitulo: Opiniones
+    titulo: Lo que dicen nuestras clientas
+    testimonios:
+      - { texto: "Por fin alguien que me escucha antes de cortar. Salgo siempre como quería.", autor: "Ana · Logroño" }
+      - { texto: "Las mechas me duran muchísimo y el pelo no se me estropea. Trato de diez.", autor: "Beatriz · Lardero" }
+      - { texto: "Voy cada mes a las uñas y es mi rato de calma. Muy limpias y puntuales.", autor: "Carmen · Logroño" }
+    nota: "Opiniones de clientas del estudio."
+
+  contacto:
+    activa: true
+    antetitulo: Contacto
+    titulo: Ven a vernos
+    texto: "Estamos a dos minutos del Espolón. Escríbenos y te respondemos en horario del estudio."
+    imagen: /placeholders/mapa.svg
+    boton: Enviar mensaje

@@ -1,0 +1,31 @@
+---
+// Equipo: retratos en arco (las fotos de personas usan la silueta /placeholders/persona.svg), nombre en serif
+// y especialidad en chip. Campos: `personas[]` (nombre, cargo, foto, texto).
+import { seccion } from '../../data/site';
+import Seccion from '../ui/Seccion.astro';
+import Titular from '../ui/Titular.astro';
+import Imagen from '../ui/Imagen.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const personas = s ? s.personas.filter((p) => p && p.nombre) : [];
+---
+
+{
+  s && personas.length > 0 && (
+    <Seccion id={Astro.props.id} class="tinte">
+      <Titular alinear="centro" antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} />
+      <ul class:list={['mx-auto grid gap-x-8 gap-y-14 sm:grid-cols-2', personas.length >= 4 ? 'lg:grid-cols-4' : 'lg:grid-cols-3', personas.length < 3 && 'max-w-3xl']}>
+        {personas.map((p) => (
+          <li class="text-center">
+            <div class="arco mx-auto w-full max-w-[15rem] overflow-hidden bg-[var(--nude)] p-2">
+              <Imagen src={p.foto || '/placeholders/persona.svg'} alt={`Foto de ${p.nombre}`} ancho={600} alto={720} class="arco aspect-[5/6] w-full object-cover" />
+            </div>
+            <p class="serif mt-6 text-2xl tracking-[.04em]">{p.nombre}</p>
+            {p.cargo && <p class="mt-2"><span class="chip">{p.cargo}</span></p>}
+            {p.texto && <p class="mx-auto mt-3 max-w-[22rem] text-sm opacity-75">{p.texto}</p>}
+          </li>
+        ))}
+      </ul>
+    </Seccion>
+  )
+}

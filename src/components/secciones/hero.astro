@@ -1,0 +1,65 @@
+---
+// Hero delicado: texto a la izquierda y collage de hasta 3 fotos (`galeria`) desplazado a la derecha,
+// sobre un degradado muy suave. Sin galería usa `imagen`. `items`: chips en píldora (opcionales).
+import { seccion } from '../../data/site';
+import Imagen from '../ui/Imagen.astro';
+interface Props { id: string; primera?: boolean }
+const { id, primera = false } = Astro.props;
+const s = seccion(id);
+const fotos = s ? (s.galeria.length ? s.galeria : s.imagen ? [s.imagen] : []).slice(0, 3) : [];
+const formas = ['collage-1', 'collage-2', 'collage-3'];
+const tamanos = [
+  { ancho: 900, alto: 1200 },
+  { ancho: 900, alto: 900 },
+  { ancho: 1200, alto: 900 },
+];
+---
+
+{
+  s && (
+    <section id={id} class="degradado overflow-hidden">
+      <div class="contenedor grid items-center gap-12 py-12 md:grid-cols-12 md:gap-8 md:py-20">
+        <div class:list={[fotos.length ? 'md:col-span-5' : 'md:col-span-8 md:col-start-3 text-center']}>
+          {s.antetitulo && <p class="antetitulo">{s.antetitulo}</p>}
+          <h1 class="mt-6 text-[clamp(2.4rem,6.4vw,4.1rem)] tracking-[.03em]">{s.titulo}</h1>
+          {s.texto && <p class:list={['mt-6 max-w-md text-lg opacity-75', !fotos.length && 'mx-auto']}>{s.texto}</p>}
+          {(s.cta?.url || s.cta_secundario?.url) && (
+            <div class:list={['mt-9 flex flex-wrap gap-3', !fotos.length && 'justify-center']}>
+              {s.cta?.url && <a class="btn" href={s.cta.url}>{s.cta.texto}</a>}
+              {s.cta_secundario?.url && <a class="btn-sec" href={s.cta_secundario.url}>{s.cta_secundario.texto}</a>}
+            </div>
+          )}
+          {s.items.length > 0 && (
+            <ul class:list={['mt-8 flex flex-wrap gap-2', !fotos.length && 'justify-center']}>
+              {s.items.map((it) => <li class="chip chip--oliva">{it.titulo}</li>)}
+            </ul>
+          )}
+        </div>
+        {fotos.length > 0 && (
+          <div class="md:col-span-7 md:pl-6">
+            <div class:list={['collage', `collage--${fotos.length}`]}>
+              <span class="collage-aro" aria-hidden="true" />
+              {fotos.map((f, i) => (
+                <div class:list={['collage-foto', formas[i]]}>
+                  <Imagen src={f} alt="" ancho={tamanos[i].ancho} alto={tamanos[i].alto} prioridad={primera && i === 0} class="h-full w-full object-cover" />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}
+
+<style>
+  /* Collage en una rejilla de 12 × 12 celdas cuadradas: las fotos se solapan sin salirse del bloque (sin scroll lateral). */
+  .collage { position: relative; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); grid-template-rows: repeat(12, minmax(0, 1fr)); aspect-ratio: 1 / 1; width: 100%; max-width: 40rem; margin-left: auto; }
+  .collage-aro { grid-area: 1 / 1 / 8 / 8; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--c-acento) 45%, transparent); }
+  .collage-foto { position: relative; overflow: hidden; box-shadow: 0 24px 48px -28px color-mix(in srgb, var(--c-texto) 45%, transparent); }
+  .collage-1 { grid-area: 1 / 5 / 12 / 13; border-radius: 999px 999px 1.5rem 1.5rem; z-index: 1; }
+  .collage-2 { grid-area: 6 / 1 / 12 / 7; border-radius: 1.5rem; z-index: 2; border: 6px solid var(--c-fondo); }
+  .collage-3 { grid-area: 10 / 7 / 13 / 11; border-radius: 999px; z-index: 3; border: 6px solid var(--c-fondo); }
+  .collage--1 .collage-1 { grid-area: 1 / 3 / 13 / 12; }
+  .collage--2 .collage-1 { grid-area: 1 / 5 / 13 / 13; }
+</style>

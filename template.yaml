@@ -1,0 +1,21 @@
+# Metadatos de la plantilla para el catálogo de NoExpertise.
+id: belleza-estetica
+nombre: Peluquería y estética
+descripcion: Web delicada para peluquerías, centros de estética y uñas, con tarifas, bonos y cita por WhatsApp.
+sectores: [peluqueria, estetica, belleza, spa, unas, barberia]
+secciones:
+  - { id: hero, nombre: Portada }
+  - { id: tarifas, nombre: Tarifas }
+  - { id: equipo, nombre: Equipo }
+  - { id: galeria, nombre: Galería de trabajos }
+  - { id: ofertas, nombre: Bonos y promociones }
+  - { id: reservas, nombre: Pedir cita }
+  - { id: opiniones, nombre: Opiniones }
+  - { id: contacto, nombre: Contacto }
+estilo: delicado
+plan_minimo: gratis
+version: 1.0.0
+base: astrowind
+demo_url: https://demo-plantilla-belleza-estetica.noexpertise.com
+activa: true
+orden: 110

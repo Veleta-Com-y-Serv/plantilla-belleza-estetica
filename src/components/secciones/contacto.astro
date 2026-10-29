@@ -1,0 +1,55 @@
+---
+// Contacto: datos en una tarjeta con iconos en círculo y plano (enlaza a mapas) a la izquierda; formulario a la derecha.
+// Campos: `antetitulo`, `titulo`, `texto`, `imagen` (plano opcional), `boton` (texto del botón del formulario, opcional).
+import { seccion, site, tel, mapa, whatsapp, valor } from '../../data/site';
+import Seccion from '../ui/Seccion.astro';
+import Titular from '../ui/Titular.astro';
+import Imagen from '../ui/Imagen.astro';
+import Icono from '../ui/Icono.astro';
+import FormularioContacto from '../ui/FormularioContacto.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const c = site.contacto;
+const datos = [
+  c.direccion && { icono: 'mapa', valor: c.direccion, url: mapa(c.direccion), externo: true },
+  c.telefono && { icono: 'telefono', valor: c.telefono, url: tel(c.telefono), externo: false },
+  c.whatsapp && { icono: 'whatsapp', valor: c.whatsapp, url: whatsapp(c.whatsapp), externo: true },
+  c.email && { icono: 'correo', valor: c.email, url: `mailto:${c.email}`, externo: false },
+  c.horario && { icono: 'reloj', valor: c.horario, url: '', externo: false },
+].filter(Boolean) as { icono: string; valor: string; url: string; externo: boolean }[];
+const boton = valor(s?.boton) || undefined;
+---
+
+{
+  s && (
+    <Seccion id={Astro.props.id} class="tinte">
+      <Titular alinear="centro" antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} />
+      <div class="grid gap-6 md:grid-cols-[1fr_1.15fr] md:gap-8">
+        <div class="grid content-start gap-6">
+          {datos.length > 0 && (
+            <ul class="tarjeta grid gap-5 p-6 md:p-8">
+              {datos.map((d) => (
+                <li class="flex items-start gap-4">
+                  <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[var(--nude)] text-primario">
+                    <Icono nombre={d.icono} tam={18} />
+                  </span>
+                  <span class="min-w-0 self-center break-words">
+                    {d.url ? <a href={d.url} rel={d.externo ? 'noopener' : undefined} target={d.externo ? '_blank' : undefined} class="hover:text-primario">{d.valor}</a> : d.valor}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+          {s.imagen && (
+            <a href={mapa(c.direccion) || undefined} rel="noopener" target="_blank" class="block overflow-hidden rounded-[1.5rem] border border-texto/10" aria-label={c.direccion || site.nombre}>
+              <Imagen src={s.imagen} alt="" ancho={1000} alto={700} class="aspect-[10/7] w-full object-cover" />
+            </a>
+          )}
+        </div>
+        <div class="tarjeta p-6 md:p-10">
+          <FormularioContacto boton={boton} />
+        </div>
+      </div>
+    </Seccion>
+  )
+}

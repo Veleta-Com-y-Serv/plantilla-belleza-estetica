@@ -1,0 +1,107 @@
+/* Peluquería y estética — estilo delicado: serif fina y espaciada para títulos, sans ligera para el texto,
+   rosa empolvado + nude + oliva, mucho blanco, degradados muy suaves, chips en píldora y fotos con arco. */
+@import "tailwindcss";
+@import "./comun.css";
+@config "../../tailwind.config.mjs";
+
+:root {
+  --fuente-texto: "Avenir Next", Avenir, "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+  --fuente-titulos: "Bodoni MT", "Bodoni 72", Didot, "Didot LT STD", "Hoefler Text", Georgia, "Times New Roman", serif;
+  --radio: 1rem; --ritmo: 4.5rem; --ritmo-md: 7rem; --ancho: 72rem;
+  /* Derivados de los colores de site.yaml (siguen funcionando si el cliente los cambia) */
+  --nude: color-mix(in srgb, var(--c-primario) 16%, var(--c-fondo));
+  --nude-suave: color-mix(in srgb, var(--c-primario) 6%, var(--c-fondo));
+  --oliva-suave: color-mix(in srgb, var(--c-acento) 10%, var(--c-fondo));
+  --linea: color-mix(in srgb, var(--c-texto) 14%, transparent);
+  --tarjeta: color-mix(in srgb, #fff 70%, var(--c-fondo));
+}
+
+@layer base {
+  html { scroll-padding-top: 5.5rem; }
+  @media (min-width: 900px) { html { scroll-padding-top: 9rem; } }
+  body { font-family: var(--fuente-texto); font-size: 1rem; line-height: 1.7; font-weight: 400; }
+  h1, h2, h3 { font-family: var(--fuente-titulos); font-weight: 400; letter-spacing: .02em; line-height: 1.12; }
+}
+
+@layer components {
+  /* Titulares */
+  .antetitulo { display: inline-flex; align-items: center; gap: .5rem; padding: .3rem .95rem; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--c-primario) 35%, transparent); color: var(--c-primario); font-size: .72rem; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; }
+  .titulo-seccion { font-size: clamp(2rem, 5vw, 3.1rem); margin-top: 1rem; letter-spacing: .03em; }
+  .titular { max-width: 40rem; margin-bottom: 3rem; }
+  .titular--centro { margin-inline: auto; text-align: center; }
+  .titular-texto { margin-top: 1rem; opacity: .75; font-size: 1.05rem; }
+  .serif { font-family: var(--fuente-titulos); }
+
+  /* Chips y botones en píldora */
+  .chip { display: inline-flex; align-items: center; gap: .4rem; padding: .2rem .8rem; border-radius: 999px; background: var(--nude-suave); border: 1px solid var(--linea); font-size: .8rem; line-height: 1.5; }
+  .chip--oliva { background: var(--oliva-suave); color: color-mix(in srgb, var(--c-acento) 75%, var(--c-texto)); border-color: color-mix(in srgb, var(--c-acento) 28%, transparent); }
+  .btn { border-radius: 999px; background: var(--c-primario); color: var(--c-sobre-primario); padding-inline: 1.6rem; font-size: .78rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; }
+  .btn:hover { background: color-mix(in srgb, var(--c-primario) 86%, #000); }
+  .btn-sec { border-radius: 999px; border: 1px solid color-mix(in srgb, var(--c-primario) 55%, transparent); color: var(--c-primario); padding-inline: 1.6rem; font-size: .78rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; }
+  .btn-sec:hover { background: var(--nude-suave); }
+
+  /* Fondos y formas */
+  .degradado { background:
+      radial-gradient(52rem 30rem at 92% -10%, var(--nude), transparent 70%),
+      radial-gradient(40rem 26rem at -10% 110%, var(--oliva-suave), transparent 70%),
+      var(--c-fondo); }
+  .tinte { background: var(--nude-suave); }
+  .tarjeta { background: var(--tarjeta); border: 1px solid var(--linea); border-radius: 1.5rem; }
+  .arco { border-radius: 999px 999px 1.25rem 1.25rem; }
+
+  /* Cabecera centrada: nombre en el centro, menú debajo en una línea fina */
+  .cabecera--centrada { position: sticky; top: 0; background: color-mix(in srgb, var(--c-fondo) 94%, transparent); backdrop-filter: saturate(1.3) blur(10px); border-bottom: 1px solid var(--linea); }
+  .cab-fila { display: grid; grid-template-columns: 2.75rem minmax(0, 1fr) 2.75rem; align-items: center; min-height: 4.25rem; gap: .5rem; }
+  .cab-lado { display: flex; align-items: center; min-width: 0; }
+  .cab-lado--der { justify-content: flex-end; }
+  .cab-marca { justify-self: center; text-decoration: none; min-width: 0; max-width: 100%; text-align: center; }
+  .cab-nombre { display: block; font-family: var(--fuente-titulos); font-size: 1.15rem; letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .cab-logo { height: 2.75rem; width: auto; margin-inline: auto; }
+  .cab-telefono, .cab-cta, .cab-linea { display: none; }
+  .cabecera--centrada .menu-movil summary { padding: .75rem; margin-right: -.75rem; }
+  .cabecera--centrada .menu-movil-panel { border-top: 1px solid var(--linea); text-align: center; }
+  .cabecera--centrada .menu-movil-panel a { font-size: .8rem; letter-spacing: .18em; text-transform: uppercase; }
+  @media (min-width: 900px) {
+    .cabecera--centrada { border-bottom: 0; }
+    .cab-fila { grid-template-columns: 1fr auto 1fr; min-height: 5.5rem; }
+    .cab-nombre { font-size: 1.65rem; letter-spacing: .22em; }
+    .cab-logo { height: 3.25rem; }
+    .cab-telefono { display: inline-flex; align-items: center; gap: .5rem; font-size: .85rem; letter-spacing: .06em; text-decoration: none; opacity: .8; }
+    .cab-telefono:hover { opacity: 1; color: var(--c-primario); }
+    .cab-cta { display: inline-flex; min-height: 2.5rem; }
+    .cab-linea { display: block; border-block: 1px solid var(--linea); }
+    .cab-linea-fila { display: flex; justify-content: center; flex-wrap: wrap; gap: .25rem 2.5rem; padding-block: .75rem; }
+    .cab-linea a { font-size: .74rem; letter-spacing: .22em; text-transform: uppercase; text-decoration: none; padding-block: .15rem; border-bottom: 1px solid transparent; }
+    .cab-linea a:hover { color: var(--c-primario); border-bottom-color: currentColor; }
+  }
+
+  /* Formularios */
+  .campo input, .campo textarea, .campo select { border-radius: 1rem; background: #fff; border-color: var(--linea); }
+  .campo select { width: 100%; font: inherit; color: inherit; padding: .7rem .85rem; border: 1px solid var(--linea); }
+  .campo input:focus-visible, .campo textarea:focus-visible, .campo select:focus-visible { border-color: var(--c-primario); outline: 2px solid color-mix(in srgb, var(--c-primario) 45%, transparent); outline-offset: 1px; }
+
+  /* Pie claro y centrado */
+  .pie--claro { background: var(--nude-suave); border-top: 1px solid var(--linea); padding-top: 4rem; text-align: center; }
+  .pie-centro { display: grid; justify-items: center; gap: 1.25rem; }
+  .pie--claro .pie-nombre { font-family: var(--fuente-titulos); font-weight: 400; font-size: 1.6rem; letter-spacing: .22em; text-transform: uppercase; }
+  .pie-logo { height: 3rem; width: auto; }
+  .pie--claro .pie-eslogan { margin: 0; max-width: 36ch; }
+  .pie--claro .pie-redes { margin: 0; justify-content: center; }
+  .pie--claro .pie-redes a { width: 2.6rem; height: 2.6rem; align-items: center; justify-content: center; border-radius: 999px; border: 1px solid var(--linea); color: var(--c-primario); }
+  .pie--claro .pie-redes a:hover { background: var(--c-primario); color: var(--c-sobre-primario); }
+  .pie-menu { display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem 1.75rem; padding-block: 1rem; border-block: 1px solid var(--linea); width: 100%; max-width: 44rem; }
+  .pie-menu a { font-size: .74rem; letter-spacing: .2em; text-transform: uppercase; text-decoration: none; }
+  .pie-menu a:hover { color: var(--c-primario); }
+  .pie-datos { display: flex; flex-wrap: wrap; justify-content: center; gap: .35rem 1.5rem; font-size: .92rem; }
+  .pie-datos a { text-decoration: none; overflow-wrap: anywhere; }
+  .pie-datos a:hover { text-decoration: underline; }
+  .pie-horario { font-size: .85rem; opacity: .7; max-width: 44ch; }
+  .pie--claro .pie-legal { justify-content: center; margin-top: 2.5rem; font-size: .8rem; }
+
+  /* Acordeón */
+  .faq summary { list-style: none; cursor: pointer; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq[open] .faq-signo { transform: rotate(45deg); }
+
+  .texto-largo h2 { font-family: var(--fuente-titulos); font-weight: 400; font-size: 1.5rem; letter-spacing: .03em; }
+}

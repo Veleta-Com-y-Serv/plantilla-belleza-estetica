@@ -1,0 +1,47 @@
+---
+// Apartado de texto genérico: antetítulo, título, párrafos, imagen en arco opcional, lista con check y botón.
+// Lo usan los apartados nuevos que pide el cliente (site.yaml: `tipo: texto`).
+import { seccion, parrafos } from '../../data/site';
+import Seccion from '../ui/Seccion.astro';
+import Imagen from '../ui/Imagen.astro';
+import Icono from '../ui/Icono.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+---
+
+{
+  s && (
+    <Seccion id={Astro.props.id}>
+      <div class:list={['grid items-center gap-12', s.imagen ? 'md:grid-cols-[5fr_6fr] md:gap-20' : 'mx-auto max-w-3xl text-center']}>
+        {s.imagen && (
+          <div class="arco mx-auto w-full max-w-md overflow-hidden bg-[var(--nude)] p-2">
+            <Imagen src={s.imagen} alt="" ancho={900} alto={1200} class="arco aspect-[3/4] w-full object-cover" />
+          </div>
+        )}
+        <div>
+          {s.antetitulo && <p class="antetitulo">{s.antetitulo}</p>}
+          {s.titulo && <h2 class="titulo-seccion">{s.titulo}</h2>}
+          <div class="mt-6 space-y-4 opacity-80">
+            {parrafos(s.texto).map((p) => <p>{p}</p>)}
+          </div>
+          {s.items.length > 0 && (
+            <ul class:list={['mt-8 grid gap-3', !s.imagen && 'justify-items-center']}>
+              {s.items.map((it) => (
+                <li class="flex items-start gap-3 text-left">
+                  <span class="mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[var(--oliva-suave)] text-acento">
+                    <Icono nombre={it.icono} tam={15} />
+                  </span>
+                  <span>
+                    <span class="font-medium">{it.titulo}</span>
+                    {it.texto && <span class="block text-sm opacity-75">{it.texto}</span>}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+          {s.cta?.url && <a class="btn mt-9" href={s.cta.url}>{s.cta.texto}</a>}
+        </div>
+      </div>
+    </Seccion>
+  )
+}

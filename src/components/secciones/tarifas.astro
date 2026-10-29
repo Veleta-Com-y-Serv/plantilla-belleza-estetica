@@ -1,0 +1,81 @@
+---
+// Tarifas: lista de precios agrupada por `categoria` (en el orden en que aparece cada una), en dos columnas.
+// Cada línea: nombre, duración y texto a la izquierda; precio a la derecha (si está vacío no se pinta).
+// Arriba, chips con las categorías que llevan a cada grupo. Campos: `tarifas[]`, `nota`, `cta`.
+import { seccion, agrupar, valor, slug } from '../../data/site';
+import Seccion from '../ui/Seccion.astro';
+import Titular from '../ui/Titular.astro';
+import Icono from '../ui/Icono.astro';
+interface Props { id: string }
+const { id } = Astro.props;
+const s = seccion(id);
+const grupos = s ? agrupar(s.tarifas.filter((t) => valor(t.nombre)), (t) => t.categoria) : [];
+const conNombre = grupos.filter((g) => g.grupo);
+const nota = valor(s?.nota);
+---
+
+{
+  s && (grupos.length > 0 || s.texto) && (
+    <Seccion id={id}>
+      <Titular alinear="centro" antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} />
+      {conNombre.length > 1 && (
+        <ul class="-mt-4 mb-12 flex flex-wrap justify-center gap-2">
+          {conNombre.map((g) => (
+            <li><a class="chip no-underline hover:border-primario hover:text-primario" href={`#${id}-${slug(g.grupo)}`}>{g.grupo}</a></li>
+          ))}
+        </ul>
+      )}
+      <div class="tarifas-columnas">
+        {grupos.map((g) => (
+          <div class="tarifas-grupo" id={g.grupo ? `${id}-${slug(g.grupo)}` : undefined}>
+            {g.grupo && (
+              <h3 class="flex items-center gap-4 text-[1.6rem] tracking-[.06em]">
+                {g.grupo}
+                <span class="h-px flex-1 bg-texto/15" aria-hidden="true" />
+              </h3>
+            )}
+            <ul class="mt-2 divide-y divide-texto/10">
+              {g.items.map((t) => {
+                const precio = valor(t.precio);
+                const duracion = valor(t.duracion);
+                return (
+                  <li class="flex items-start justify-between gap-5 py-4">
+                    <div class="min-w-0">
+                      <p class="font-medium">{t.nombre}</p>
+                      {(duracion || t.texto) && (
+                        <p class="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm opacity-75">
+                          {duracion && (
+                            <span class="inline-flex items-center gap-1.5 whitespace-nowrap">
+                              <Icono nombre="reloj" tam={14} />
+                              {duracion}
+                            </span>
+                          )}
+                          {t.texto && <span>{t.texto}</span>}
+                        </p>
+                      )}
+                    </div>
+                    {precio && <p class="serif shrink-0 whitespace-nowrap text-xl text-primario">{precio}</p>}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ))}
+      </div>
+      {(nota || s.cta?.url) && (
+        <div class="mt-12 grid justify-items-center gap-5 text-center">
+          {nota && <p class="max-w-xl text-sm italic opacity-70">{nota}</p>}
+          {s.cta?.url && <a class="btn" href={s.cta.url}>{s.cta.texto}</a>}
+        </div>
+      )}
+    </Seccion>
+  )
+}
+
+<style>
+  .tarifas-columnas { display: grid; gap: 2.75rem; }
+  @media (min-width: 768px) {
+    .tarifas-columnas { display: block; columns: 2; column-gap: 4.5rem; }
+    .tarifas-grupo { break-inside: avoid; margin-bottom: 3rem; }
+  }
+</style>

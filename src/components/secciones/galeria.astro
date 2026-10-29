@@ -1,0 +1,36 @@
+---
+// Galería estilo Instagram: rejilla cuadrada de 3 columnas (3 × 3 con 9 fotos), huecos finos.
+// Campos: `galeria[]` (rutas), `cta` opcional (p. ej. enlace al perfil de Instagram).
+import { seccion } from '../../data/site';
+import Seccion from '../ui/Seccion.astro';
+import Titular from '../ui/Titular.astro';
+import Imagen from '../ui/Imagen.astro';
+import Icono from '../ui/Icono.astro';
+interface Props { id: string }
+const s = seccion(Astro.props.id);
+const fotos = s ? s.galeria.filter(Boolean) : [];
+const esInstagram = (url?: string) => !!url && /instagram\.com/i.test(url);
+---
+
+{
+  s && fotos.length > 0 && (
+    <Seccion id={Astro.props.id}>
+      <Titular alinear="centro" antetitulo={s.antetitulo} titulo={s.titulo} texto={s.texto} />
+      <ul class="mx-auto grid max-w-4xl grid-cols-3 gap-1 sm:gap-2">
+        {fotos.map((f, i) => (
+          <li class="group relative aspect-square overflow-hidden rounded-[.35rem] bg-[var(--nude-suave)] sm:rounded-[.75rem]">
+            <Imagen src={f} alt="" ancho={800} alto={800} class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]" />
+          </li>
+        ))}
+      </ul>
+      {s.cta?.url && (
+        <p class="mt-10 text-center">
+          <a class="btn-sec" href={s.cta.url} rel={/^https?:/.test(s.cta.url) ? 'noopener' : undefined} target={/^https?:/.test(s.cta.url) ? '_blank' : undefined}>
+            {esInstagram(s.cta.url) && <Icono nombre="instagram" tam={18} />}
+            {s.cta.texto}
+          </a>
+        </p>
+      )}
+    </Seccion>
+  )
+}
