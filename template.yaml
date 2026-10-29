@@ -14,8 +14,61 @@ secciones:
   - { id: contacto, nombre: Contacto }
 estilo: delicado
 plan_minimo: gratis
-version: 1.0.0
+version: 1.1.0
 base: astrowind
 demo_url: https://demo-plantilla-belleza-estetica.noexpertise.com
 activa: true
 orden: 110
+
+# Asistente de puesta en marcha (NoExpertise): un paso por pantalla. Rutas del site sin índices;
+# tipos: texto y lista (la IA propone), datos, fotos, eleccion (colores y logo) y repaso.
+asistente:
+  - id: negocio
+    titulo: "Tu salón"
+    pregunta: "¿Cómo se llama tu salón o centro y qué hacéis?"
+    ayuda: "Peluquería, estética, uñas, barbería… y para quién."
+    tipo: texto
+    campos: [nombre, eslogan, secciones.hero.antetitulo, secciones.hero.titulo, secciones.hero.texto, seo.descripcion]
+  - id: contacto
+    titulo: "Cómo te encuentran"
+    pregunta: "¿Dónde estáis y cómo os pueden pedir cita?"
+    ayuda: "Solo lo que quieras que vean tus clientes. Lo que dejes vacío no sale en tu web."
+    tipo: datos
+    campos: [contacto.telefono, contacto.whatsapp, contacto.email, contacto.direccion, contacto.horario, secciones.reservas.enlace_reservas, redes.instagram, redes.facebook]
+  - id: tarifas
+    titulo: "Servicios y precios"
+    pregunta: "Cuéntame lo que hacéis, con el precio si quieres. Uno por línea."
+    ayuda: "Por ejemplo: corte y peinado, 30 minutos. Si lo prefieres, añádelos luego en Contenido."
+    tipo: lista
+    campos: [secciones.tarifas.tarifas]
+  - id: ofertas
+    titulo: "Bonos y promociones"
+    pregunta: "¿Tenéis bonos o promociones? Uno por línea."
+    ayuda: "Si ahora no tenéis, salta este paso."
+    tipo: lista
+    campos: [secciones.ofertas.ofertas]
+  - id: equipo
+    titulo: "Tu equipo"
+    pregunta: "¿Quién forma el equipo? Nombre y qué hace cada uno, uno por línea."
+    ayuda: "Las fotos las pones luego en Contenido."
+    tipo: lista
+    campos: [secciones.equipo.personas]
+  - id: reservas
+    titulo: "Pedir cita"
+    pregunta: "¿Cómo se pide cita? Por WhatsApp, por teléfono, con una agenda en internet…"
+    tipo: texto
+    campos: [secciones.reservas.titulo, secciones.reservas.texto, secciones.reservas.items, secciones.reservas.nota]
+  - id: fotos
+    titulo: "Tus fotos"
+    pregunta: "Pon fotos de tu salón y de tus trabajos."
+    ayuda: "Sube las tuyas o elige una del banco. Las que no cambies se quedan como están."
+    tipo: fotos
+    campos: [secciones.hero.galeria, secciones.galeria.galeria, secciones.contacto.imagen]
+  - id: aspecto
+    titulo: "Colores y logo"
+    pregunta: "Elige los colores de tu web y, si tienes, tu logo."
+    tipo: eleccion
+    campos: [colores.primario, colores.acento, logo]
+  - id: repaso
+    titulo: "Repaso"
+    tipo: repaso
