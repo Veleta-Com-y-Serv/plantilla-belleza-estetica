@@ -58,19 +58,69 @@ secciones:
     titulo: Servicios y precios
     texto: "Precios con IVA incluido. Si tienes dudas, te asesoramos antes de empezar."
     tarifas:   # se agrupan por `categoria` en el orden en que aparecen
-      - { nombre: Corte y peinado, duracion: 45 min, precio: "28 €", categoria: Peluquería, texto: "Lavado, corte y secado." }
+      - nombre: Corte y peinado
+        duracion: 45 min
+        precio: "28 €"
+        categoria: Peluquería
+        texto: "Lavado, corte y secado."
+        detalle: |
+          Empezamos con un lavado relajado y un masaje suave en el cuero cabelludo. Después Lucía o Marta te preguntan cómo vives tu pelo: si lo llevas suelto, recogido, si te lo secas tú o prefieres que se arregle solo. Con eso en mente se decide el corte, sin imponer nada.
+
+          El servicio incluye el corte a medida de tu tipo de cabello, el secado con cepillo o difusor y el acabado con productos respetuosos con el cuero cabelludo. Si traes una foto de referencia, la miramos juntas y te decimos con sinceridad qué se puede conseguir y qué cambiaría según tu cara y tu densidad.
+
+          Es un servicio pensado para quien quiere salir peinada y con un corte que se pueda mantener en casa. Si dudas entre cambiar de largo o solo repasar puntas, dínoslo al pedir la cita y reservamos el tiempo necesario. Te damos consejos para el día a día y, cuando toca, te sugerimos el momento de volver.
       - { nombre: Corte de caballero, duracion: 30 min, precio: "16 €", categoria: Peluquería, texto: "" }
       - { nombre: Peinado o recogido, duracion: 40 min, precio: "22 €", categoria: Peluquería, texto: "Para eventos y celebraciones." }
       - { nombre: Ritual de hidratación, duracion: 20 min, precio: "18 €", categoria: Peluquería, texto: "Mascarilla y masaje capilar." }
       - { nombre: Tinte de raíz, duracion: 1 h, precio: "32 €", categoria: Color, texto: "Sin amoniaco." }
-      - { nombre: Mechas balayage, duracion: 2 h 30 min, precio: "desde 75 €", categoria: Color, texto: "Según largo y densidad." }
+      - nombre: Mechas balayage
+        duracion: 2 h 30 min
+        precio: "desde 75 €"
+        categoria: Color
+        texto: "Según largo y densidad."
+        detalle: |
+          El balayage se pinta a mano, mechón a mechón, para conseguir un degradado luminoso y natural que crece sin marcar raíz. Antes de empezar revisamos el estado de tu cabello, tu color de partida y el resultado que imaginas, y te explicamos con claridad qué tono es realista en una sola sesión y cuál requiere un proceso más pausado.
+
+          La sesión incluye la consulta previa, la decoloración y el matizado a mano, el tratamiento protector durante el proceso y el lavado con productos sin amoniaco. Al final te peinamos para que veas el resultado terminado con luz del día, junto a la ventana.
+
+          Es ideal para quien quiere un cambio visible pero cuidado, con poco mantenimiento y un crecimiento suave. Según el largo y la densidad, el tiempo y el precio varían, y por eso preferimos verte antes de dar el precio final. Te dejamos por escrito cómo lavarte el pelo y qué mascarillas usar para que el brillo dure.
       - { nombre: Baño de color, duracion: 30 min, precio: "25 €", categoria: Color, texto: "Brillo y matiz." }
       - { nombre: Manicura semipermanente, duracion: 45 min, precio: "20 €", categoria: Manos y pies, texto: "" }
       - { nombre: Retirada y nueva semipermanente, duracion: 1 h, precio: "24 €", categoria: Manos y pies, texto: "" }
-      - { nombre: Pedicura completa, duracion: 50 min, precio: "30 €", categoria: Manos y pies, texto: "Con exfoliación e hidratación." }
-      - { nombre: Limpieza facial, duracion: 1 h, precio: "45 €", categoria: Estética, texto: "Adaptada a tu tipo de piel." }
+      - nombre: Pedicura completa
+        duracion: 50 min
+        precio: "30 €"
+        categoria: Manos y pies
+        texto: "Con exfoliación e hidratación."
+        detalle: |
+          Una pedicura pensada para dejar los pies cuidados y descansados. Comenzamos con un baño templado y una revisión tranquila de uñas y piel, para adaptar el tratamiento a lo que tus pies necesitan ese día y detectar cualquier molestia que convenga mirar con calma.
+
+          Incluye el corte y limado de las uñas, el cuidado de las cutículas, la exfoliación para suavizar durezas, un masaje con crema hidratante y el esmaltado que prefieras, tradicional o semipermanente. Trabajamos con material esterilizado en cada sesión y con productos suaves que no resecan la piel.
+
+          Es un servicio para quien pasa muchas horas de pie, para quien quiere llegar al verano con las sandalias a punto o para quien simplemente necesita un rato sin prisas. Sales con los pies ligeros, la piel suave y un esmaltado limpio. Si tienes alguna sensibilidad o una uña delicada, avísanos al reservar y lo tenemos en cuenta.
+      - nombre: Limpieza facial
+        duracion: 1 h
+        precio: "45 €"
+        categoria: Estética
+        texto: "Adaptada a tu tipo de piel."
+        detalle: |
+          Una limpieza facial pensada para cada piel, no un protocolo igual para todas. Empezamos observando tu rostro con buena luz y preguntando qué productos usas, cómo duermes y qué te preocupa, para elegir los pasos y los activos que mejor te sientan.
+
+          El tratamiento incluye la limpieza profunda, la exfoliación suave, la extracción cuidadosa de impurezas cuando hace falta, una mascarilla elegida según tu tipo de piel, un masaje facial relajante y el cierre con hidratación y protección. Usamos cosmética respetuosa y evitamos todo lo que pueda irritar.
+
+          Es una buena opción si tu piel está apagada, con poros dilatados o con tendencia a brillos, y también como pausa de cuidado antes de un evento. Irene te explica al terminar qué rutina sencilla seguir en casa y cada cuánto conviene repetir la limpieza. Si tienes la piel muy sensible o estás en tratamiento dermatológico, cuéntanoslo al pedir la cita.
       - { nombre: Diseño de cejas, duracion: 15 min, precio: "10 €", categoria: Estética, texto: "" }
-      - { nombre: Lifting de pestañas, duracion: 50 min, precio: "38 €", categoria: Estética, texto: "Con tinte incluido." }
+      - nombre: Lifting de pestañas
+        duracion: 50 min
+        precio: "38 €"
+        categoria: Estética
+        texto: "Con tinte incluido."
+        detalle: |
+          El lifting de pestañas eleva y curva tus pestañas naturales desde la raíz para que la mirada se vea más abierta, sin extensiones ni pegamentos. Es un tratamiento semipermanente que respeta tu pestaña y se nota especialmente cuando te maquillas poco.
+
+          En la sesión limpiamos bien la zona, colocamos las pestañas sobre un molde a tu medida, aplicamos el producto que da la forma y fijamos el resultado. Después añadimos el tinte, que ya está incluido, para dar profundidad al color. Todo se hace con los ojos cerrados y en un ambiente tranquilo, sin dolor.
+
+          Está pensado para quien quiere despertarse con buena cara y olvidarse del rizador. Durante las primeras horas conviene evitar el agua y el vapor, y te lo recordamos al terminar. Con unos cuidados sencillos, el efecto acompaña el ciclo natural de la pestaña. Si usas lentillas o tienes los ojos sensibles, dínoslo antes de empezar.
       - { nombre: Depilación de piernas, duracion: 40 min, precio: "26 €", categoria: Estética, texto: "Con cera tibia." }
     nota: "¿Primera vez con nosotras? Te hacemos un diagnóstico de cabello o piel sin coste."
     cta: { texto: Reservar un servicio, url: "/#reservas" }

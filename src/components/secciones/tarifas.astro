@@ -1,11 +1,13 @@
 ---
 // Tarifas: lista de precios agrupada por `categoria` (en el orden en que aparece cada una), en dos columnas.
 // Cada línea: nombre, duración y texto a la izquierda; precio a la derecha (si está vacío no se pinta).
+// Los tratamientos con `detalle` tienen página propia (/tratamientos/<slug>/) y su nombre es un enlace.
 // Arriba, chips con las categorías que llevan a cada grupo. Campos: `tarifas[]`, `nota`, `cta`.
 import { seccion, agrupar, valor, slug } from '../../data/site';
 import Seccion from '../ui/Seccion.astro';
 import Titular from '../ui/Titular.astro';
 import Icono from '../ui/Icono.astro';
+import { enlaceDe } from '../../lib/paginas';
 interface Props { id: string }
 const { id } = Astro.props;
 const s = seccion(id);
@@ -39,9 +41,9 @@ const nota = valor(s?.nota);
                 const precio = valor(t.precio);
                 const duracion = valor(t.duracion);
                 return (
-                  <li class="flex items-start justify-between gap-5 py-4">
+                  <li class="tarifa-linea flex items-start justify-between gap-5 py-4">
                     <div class="min-w-0">
-                      <p class="font-medium">{t.nombre}</p>
+                      <p class="font-medium">{enlaceDe(t) ? <a href={enlaceDe(t)} class="tarifa-enlace">{t.nombre}</a> : t.nombre}{enlaceDe(t) && <span class="tarifa-ver" aria-hidden="true"> <Icono nombre="flecha" tam={14} /></span>}</p>
                       {(duracion || t.texto) && (
                         <p class="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm opacity-75">
                           {duracion && (
@@ -73,6 +75,13 @@ const nota = valor(s?.nota);
 }
 
 <style>
+  .tarifa-linea { position: relative; }
+  .tarifa-enlace { text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--c-primario) 45%, transparent); text-underline-offset: .25em; }
+  .tarifa-enlace::after { content: ""; position: absolute; inset: 0; }
+  .tarifa-enlace:hover { color: var(--c-primario); }
+  .tarifa-enlace:focus-visible { outline: none; }
+  .tarifa-linea:has(.tarifa-enlace:focus-visible) { outline: 2px solid var(--c-primario); outline-offset: 2px; }
+  .tarifa-ver { display: inline-block; vertical-align: -2px; color: var(--c-primario); }
   .tarifas-columnas { display: grid; gap: 2.75rem; }
   @media (min-width: 768px) {
     .tarifas-columnas { display: block; columns: 2; column-gap: 4.5rem; }

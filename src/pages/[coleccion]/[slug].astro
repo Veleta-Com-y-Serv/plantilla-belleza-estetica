@@ -1,0 +1,193 @@
+---
+// Ficha de un elemento con `detalle` (src/lib/paginas.ts, listas de src/data/fichas.ts): /tratamientos/<slug>/.
+// Diseño delicado como la portada: fondo en degradado rosa y oliva muy suave, migas y título centrados en serif fina
+// con antetítulo en píldora, foto con arco (o, sin foto, su icono en un arco), precio y duración en chips, botones en
+// píldora; después el `detalle` y, al lado, la tabla de datos y una caja de cita; fotos con arco y otros tratamientos
+// de la misma lista en tarjetas redondeadas.
+import Base from '../../layouts/Base.astro';
+import Imagen from '../../components/ui/Imagen.astro';
+import Icono from '../../components/ui/Icono.astro';
+import Titular from '../../components/ui/Titular.astro';
+import { seccion, site, tel, whatsapp } from '../../data/site';
+import { fichas, relacionadas, resumen } from '../../lib/paginas';
+import type { Ficha } from '../../lib/paginas';
+import { altGaleria, jsonLdFicha, jsonLdMigas, urlBase } from '../../lib/seo';
+
+export function getStaticPaths() {
+  return fichas().map((f) => ({ params: { coleccion: f.def.ruta, slug: f.slug }, props: { f } }));
+}
+
+interface Props { f: Ficha }
+const { f } = Astro.props;
+const base = urlBase(Astro.site);
+const nombreSeccion = String(f.seccion.antetitulo || f.seccion.titulo || f.def.nombre).trim();
+const migas = [
+  { nombre: 'Inicio', ruta: '/' },
+  { nombre: nombreSeccion, ruta: `/#${f.idSeccion}` },
+  { nombre: f.titulo, ruta: f.url },
+];
+const c = site.contacto;
+const cita = seccion('reservas') ? '/#reservas' : site.boton_cabecera?.url || '/#contacto';
+const textoCita = site.boton_cabecera?.texto || 'Pedir cita';
+const wa = whatsapp(c.whatsapp, `Hola, quiero información sobre ${f.titulo}`);
+const duracion = f.datos.find((d) => d.clave === 'duracion')?.valor ?? '';
+const datos = f.datos.filter((d) => d.clave !== 'precio' && d.clave !== 'duracion');
+const otras = relacionadas(f, 3);
+const descripcion = resumen(f.texto || f.detalle[0] || '');
+---
+
+<Base titulo={f.titulo} descripcion={descripcion} imagen={f.imagen} ld={[jsonLdMigas(base, migas), jsonLdFicha(base, f)]}>
+  <section class="degradado ficha-cabeza">
+    <div class="contenedor">
+      <nav aria-label="Migas de pan" class="migas">
+        <ol>
+          {migas.map((m, i) => (
+            <li>{i < migas.length - 1 ? <a href={m.ruta}>{m.nombre}</a> : <span aria-current="page">{m.nombre}</span>}</li>
+          ))}
+        </ol>
+      </nav>
+      <div class="ficha-hero">
+        {f.imagen ? (
+          <div class="ficha-foto arco">
+            <Imagen src={f.imagen} alt={f.titulo} ancho={1200} alto={900} prioridad class="h-full w-full object-cover" />
+          </div>
+        ) : (
+          <div class="ficha-foto ficha-icono arco" aria-hidden="true"><Icono nombre={f.icono || 'corazon'} tam={72} /></div>
+        )}
+        <div class="ficha-hero-texto">
+          <p class="antetitulo">{f.categoria || f.def.nombre}</p>
+          <h1 class="titulo-seccion">{f.titulo}</h1>
+          {f.texto && <p class="titular-texto">{f.texto}</p>}
+          {(duracion || f.precio) && (
+            <p class="ficha-chips">
+              {duracion && <span class="chip chip--oliva"><Icono nombre="reloj" tam={14} /> {duracion}</span>}
+              {f.precio && <span class="ficha-precio">{f.precio}</span>}
+            </p>
+          )}
+          <div class="ficha-botones">
+            <a class="btn" href={cita}>{textoCita}</a>
+            {wa && <a class="btn-sec" href={wa} target="_blank" rel="noopener"><Icono nombre="whatsapp" tam={18} /> WhatsApp</a>}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion">
+    <div class="contenedor ficha-cuerpo">
+      <article class="texto-largo ficha-detalle">
+        {f.detalle.map((p) => <p>{p}</p>)}
+      </article>
+      <aside class="ficha-lado">
+        {(datos.length > 0 || f.precio || duracion) && (
+          <div class="ficha-datos tarjeta">
+            <h2 class="ficha-lado-titulo">En pocas palabras</h2>
+            <dl>
+              {f.precio && <div><dt>Precio</dt><dd class="ficha-precio">{f.precio}</dd></div>}
+              {duracion && <div><dt>Duración</dt><dd>{duracion}</dd></div>}
+              {datos.map((d) => <div><dt>{d.etiqueta}</dt><dd>{d.valor}</dd></div>)}
+            </dl>
+          </div>
+        )}
+        <div class="ficha-cita tinte tarjeta">
+          <p class="ficha-cita-titulo">Reserva tu rato de calma</p>
+          <p>Te buscamos el hueco que mejor te venga y te asesoramos antes de empezar.</p>
+          <a class="btn" href={cita}>{textoCita}</a>
+          {c.telefono && <a class="ficha-tel" href={tel(c.telefono)}><Icono nombre="telefono" tam={18} /> {c.telefono}</a>}
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  {f.imagenes.length > 0 && (
+    <section class="tinte seccion" aria-label={`Fotos de ${f.titulo}`}>
+      <div class="contenedor">
+        <ul class="ficha-galeria">
+          {f.imagenes.map((src, i) => (
+            <li class="arco"><Imagen src={src} alt={`${f.titulo}: ${altGaleria(i).toLowerCase()}`} ancho={800} alto={600} class="h-full w-full object-cover" /></li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  {otras.length > 0 && (
+    <section class="seccion">
+      <div class="contenedor">
+        <Titular alinear="centro" antetitulo={nombreSeccion} titulo="Otros tratamientos" />
+        <ul class="ficha-otras">
+          {otras.map((o) => (
+            <li class="ficha-otra tarjeta">
+              <span class="ficha-otra-icono"><Icono nombre={o.icono || 'corazon'} tam={22} /></span>
+              <h3><a href={o.url} class="ficha-otra-enlace">{o.titulo}</a></h3>
+              {o.texto && <p>{o.texto}</p>}
+              <p class="ficha-otra-pie">
+                {o.precio && <span class="ficha-precio">{o.precio}</span>}
+                <span class="ficha-otra-ver" aria-hidden="true">Ver más <Icono nombre="flecha" tam={16} /></span>
+              </p>
+            </li>
+          ))}
+        </ul>
+        <p class="mt-10 text-center"><a class="btn-sec" href={`/#${f.idSeccion}`}>Ver todos los tratamientos</a></p>
+      </div>
+    </section>
+  )}
+</Base>
+
+<style>
+  .ficha-cabeza { padding-block: clamp(1rem, 3vw, 2rem) clamp(3rem, 6vw, 5.5rem); }
+  .migas ol { display: flex; flex-wrap: wrap; justify-content: center; gap: .25rem .5rem; font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; }
+  .migas li { display: inline-flex; align-items: center; gap: .5rem; min-width: 0; }
+  .migas li + li::before { content: "·"; opacity: .5; }
+  .migas a { color: var(--c-primario); text-decoration: none; min-height: 2.75rem; display: inline-flex; align-items: center; }
+  .migas a:hover { text-decoration: underline; }
+  .migas [aria-current] { opacity: .7; overflow-wrap: anywhere; }
+  .ficha-hero { display: grid; gap: 2rem; margin-top: clamp(.5rem, 2vw, 1.5rem); justify-items: center; text-align: center; }
+  .ficha-hero-texto { display: grid; justify-items: center; }
+  .ficha-hero-texto .titulo-seccion { font-size: clamp(2.2rem, 6vw, 3.6rem); overflow-wrap: anywhere; }
+  .ficha-hero-texto .titular-texto { max-width: 36rem; }
+  .ficha-chips { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: .75rem 1.25rem; margin-top: 1.5rem; }
+  .ficha-precio { font-family: var(--fuente-titulos); font-size: 1.5rem; letter-spacing: .03em; color: var(--c-primario); }
+  .ficha-botones { display: flex; flex-wrap: wrap; justify-content: center; gap: .75rem; margin-top: 2rem; }
+  .ficha-botones a { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; }
+  .ficha-foto { width: min(100%, 22rem); aspect-ratio: 4 / 5; overflow: hidden; background: var(--nude); }
+  .ficha-icono { display: grid; place-items: center; color: var(--c-primario); border: 1px solid var(--linea); }
+  .ficha-cuerpo { display: grid; gap: 3rem; }
+  .ficha-detalle { max-width: 42rem; font-size: 1.08rem; }
+  .ficha-detalle p + p { margin-top: 1.2rem; }
+  .ficha-detalle p:first-child { font-size: 1.2rem; }
+  .ficha-lado { display: grid; gap: 1.5rem; align-content: start; }
+  .ficha-lado-titulo { font-size: 1.4rem; margin-bottom: .75rem; }
+  .ficha-datos { padding: 1.5rem; }
+  .ficha-datos dl { display: grid; }
+  .ficha-datos dl > div { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: .8rem 0; border-top: 1px solid var(--linea); }
+  .ficha-datos dt { font-size: .75rem; letter-spacing: .16em; text-transform: uppercase; opacity: .7; }
+  .ficha-datos dd { text-align: right; min-width: 0; overflow-wrap: anywhere; }
+  .ficha-cita { display: grid; justify-items: start; gap: .9rem; padding: 1.75rem 1.5rem; }
+  .ficha-cita-titulo { font-family: var(--fuente-titulos); font-size: 1.6rem; line-height: 1.15; letter-spacing: .02em; }
+  .ficha-cita .btn { display: inline-flex; align-items: center; justify-content: center; }
+  .ficha-tel { display: inline-flex; align-items: center; gap: .5rem; min-height: 2.75rem; color: var(--c-primario); text-decoration: none; }
+  .ficha-tel:hover { text-decoration: underline; }
+  .ficha-galeria { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr)); justify-items: center; }
+  .ficha-galeria li { width: min(100%, 15rem); aspect-ratio: 3 / 4; overflow: hidden; }
+  .ficha-otras { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr)); }
+  .ficha-otra { position: relative; display: flex; flex-direction: column; gap: .6rem; padding: 1.5rem; transition: border-color .2s ease; }
+  .ficha-otra:hover { border-color: var(--c-primario); }
+  .ficha-otra-icono { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: 999px; background: var(--nude); color: var(--c-primario); }
+  .ficha-otra h3 { font-size: 1.35rem; margin-top: .35rem; }
+  .ficha-otra-enlace { text-decoration: none; color: inherit; }
+  .ficha-otra-enlace::after { content: ""; position: absolute; inset: 0; border-radius: 1.5rem; }
+  .ficha-otra-enlace:focus-visible { outline: none; }
+  .ficha-otra:has(.ficha-otra-enlace:focus-visible) { outline: 2px solid var(--c-primario); outline-offset: 2px; }
+  .ficha-otra p { opacity: .8; font-size: .95rem; }
+  .ficha-otra-pie { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: auto; padding-top: .5rem; opacity: 1 !important; }
+  .ficha-otra-pie .ficha-precio { font-size: 1.2rem; }
+  .ficha-otra-ver { display: inline-flex; align-items: center; gap: .3rem; font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--c-primario); }
+  @media (min-width: 1024px) {
+    .ficha-hero { grid-template-columns: minmax(0, 20rem) minmax(0, 1fr); gap: 4.5rem; justify-items: stretch; text-align: left; align-items: center; }
+    .ficha-hero-texto { justify-items: start; }
+    .ficha-chips, .ficha-botones { justify-content: flex-start; }
+    .ficha-cuerpo { grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); gap: 5rem; align-items: start; }
+    .ficha-lado { position: sticky; top: 9rem; }
+  }
+</style>
