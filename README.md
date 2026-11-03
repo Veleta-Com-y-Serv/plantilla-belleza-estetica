@@ -6,6 +6,7 @@ Web delicada para peluquerías, centros de estética y uñas, con tarifas, bonos
 - Secciones: hero, tarifas, equipo, galeria, ofertas, reservas, opiniones, preguntas, contacto (más el diseño `texto` para apartados nuevos).
 - Campos propios: `tarifas[]` (agrupadas por `categoria`), `ofertas[]`, `reservas.enlace_reservas`, `hero.galeria` (collage de 3 fotos).
 - SEO de base incluido (`src/lib/seo.ts`): canónica, og:image, JSON-LD del negocio y de las preguntas frecuentes, `robots.txt`, `sitemap.xml` y `llms.txt`; `noindex` si `seo.indexable: false`.
+- Varias páginas (opcional, `paginas:` en la raíz de `site.yaml`): Inicio + una página por entrada (`{ ruta, titulo, secciones: "a; b" }`, hasta 6) con el menú hecho solo; reparto recomendado en `template.yaml → paginas`. Sin la clave, una sola página larga.
 - Contenido editable en `site.yaml`; metadatos en `template.yaml`; reglas para el agente en `CLAUDE.md`; fotos de la demo en `fotos.json`.
 
 ```
